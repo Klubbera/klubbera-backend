@@ -87,11 +87,14 @@ module.exports = async function handler(req, res) {
     }
 
     return res.status(200).json({ ok: true, id: result.data?.id });
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ ok: false, error: "Could not send email" });
-  }
-};
+ } catch (error) {
+  console.error("RESEND ERROR:", error);
+
+  return res.status(500).json({
+    ok: false,
+    error: error?.message || String(error)
+  });
+}
 
 function escapeHtml(value) {
   return String(value ?? "")
